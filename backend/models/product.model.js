@@ -18,8 +18,7 @@ const exhibitSchema = new mongoose.Schema ({
     animal: { type: mongoose.Schema.Types.ObjectId, ref: 'Animal' },
     habitat: { type: mongoose.Schema.Types.ObjectId, ref: 'Habitat'},
     capacity: Number, 
-    seasonal: Boolean, 
-    Region: String
+    seasonal: Boolean
 })
 
 

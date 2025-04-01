@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import cors from 'cors'; 
 import {Animal, Habitat} from './models/product.model.js'; 
+import exhibitRoutes from './exhibit.routes.js';  // Add this line
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,9 @@ app.use(cors());
 /*app.get('/', (req, res) => {
     res.send('Hello World!!');
 });*/
+
+
+app.use('/api', exhibitRoutes)
 
 app.post('/animals', async (req, res) => {
     const { species, food } = req.body;
