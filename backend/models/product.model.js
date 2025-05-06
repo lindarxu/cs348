@@ -20,6 +20,8 @@ const exhibitSchema = new mongoose.Schema ({
     seasonal: Boolean
 })
 
+exhibitSchema.index({capacity: 1, animal: 1, seasonal: 1 });
+
 
 const Animal = mongoose.model('Animal', animalSchema);
 export {Animal};

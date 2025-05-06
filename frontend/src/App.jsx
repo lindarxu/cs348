@@ -3,6 +3,7 @@ import Animal2 from './components/Animal2';
 import ExhibitForm from './components/Exhibits'; // Import your ExhibitForm component
 import ExhibitTable from './components/ExhibitTable';
 import ReportGenerator from './components/ReportGenerator'
+import ExhibitManager from './components/ExhibitManager';
 const App = () => {
   const [animals, setAnimals] = useState([]);
 
@@ -76,8 +77,9 @@ const handleFilter = async (min, max) => {
 
       {/* Pass animals state and clearAnimalList function as props */}
       <Animal2 animals={animals} setAnimals={setAnimals} clearAnimalList={clearAnimalList} />
-      {<ExhibitForm animals={animals} fetchExhibits={fetchExhibits} />}
-      {<ExhibitTable exhibits={exhibits} />}
+      {/*<ExhibitForm animals={animals} fetchExhibits={fetchExhibits} />*/}
+      {/*<ExhibitTable exhibits={exhibits} />*/}
+      {<ExhibitManager animals={animals}/>}
       <ReportGenerator/>
     </div>
   );
