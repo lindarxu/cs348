@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-const ExhibitForm = ({ animals }) => {
+const ExhibitForm = ({ animals, fetchExhibits }) => {
   const [exhibit, setExhibit] = useState({
     animal: '',
-    habitat: '',
     capacity: '',
     seasonal: false,
   });
@@ -17,11 +16,28 @@ const ExhibitForm = ({ animals }) => {
     });
   };
 
-  // Handle form submit for adding or updating an exhibit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Send exhibit data to the server (update logic omitted)
+    try {
+      const response = await fetch('http://localhost:5001/exhibits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(exhibit),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Exhibit added:', data);
+        if (fetchExhibits) fetchExhibits();
+      } else {
+        console.error('Failed to add exhibit');
+      }
+    } catch (err) {
+      console.error('Error adding exhibit:', err);
+    }
   };
+  
 
   return (
     <div>

@@ -1,64 +1,71 @@
-import express from 'express';
-import { Exhibit } from './models/product.model.js';
-import { Animal } from './models/product.model.js'; // Import Animal model for population
-import { Habitat } from './models/product.model.js';
+/*import express from 'express';
+import {Exhibit} from './models/product.model.js';  // Adjust the path if necessary
 
 const router = express.Router();
 
-// Get all exhibits
+// Route to get all exhibits
 router.get('/exhibits', async (req, res) => {
   try {
-    const exhibits = await Exhibit.find()
-      .populate('animal')
-      .populate('habitat'); // Populate animal and habitat data
-    res.status(200).json(exhibits);
+    console.log("hihi")
+    const exhibits = await Exhibit.find().populate('animal habitat');
+    console.log("hihi2")
+    return res.status(200).json(exhibits);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch exhibits' });
+    return res.status(500).json({ error: 'Failed to fetch exhibits' });
   }
 });
 
-// Add a new exhibit
 router.post('/exhibits', async (req, res) => {
   const { animal, habitat, capacity, seasonal } = req.body;
 
+  // Log incoming request body for debugging
+  console.log('Request body for new exhibit:', req.body);
+
+  // Check if required fields are present
+  if (!animal || !capacity) {
+    return res.status(400).json({ error: 'Animal and capacity are required' });
+  }
+
   try {
-    const newExhibit = new Exhibit({ animal, habitat, capacity, seasonal });
+    // Create a new exhibit document
+    const newExhibit = new Exhibit({
+      animal,
+      habitat,
+      capacity,
+      seasonal,
+    });
+
+    // Save the new exhibit to the database
     await newExhibit.save();
-    res.status(201).json(newExhibit);
+    console.log('Exhibit added to database:', newExhibit);
+
+    // Return the newly created exhibit
+    return res.status(201).json(newExhibit);
   } catch (err) {
-    res.status(400).json({ error: 'Failed to add exhibit' });
+    console.error('Error adding exhibit:', err);
+    return res.status(500).json({ error: 'Failed to add exhibit' });
   }
 });
 
-// Update an existing exhibit
-router.put('/exhibits/:id', async (req, res) => {
-  const { id } = req.params;
-  const { animal, habitat, capacity, seasonal } = req.body;
+router.get('/exhibits/filter', async (req, res) => {
+  const min = parseInt(req.query.min, 10);
+  const max = parseInt(req.query.max, 10);
+
+  const query = {};
+
+  if (!isNaN(min) && min >= 0) {
+    query.capacity = { ...query.capacity, $gte: min };
+  }
+  if (!isNaN(max) && max >= 0) {
+    query.capacity = { ...query.capacity, $lte: max };
+  }
 
   try {
-    const updatedExhibit = await Exhibit.findByIdAndUpdate(
-      id,
-      { animal, habitat, capacity, seasonal },
-      { new: true }
-    )
-      .populate('animal')
-      .populate('habitat');
-    res.status(200).json(updatedExhibit);
+    const exhibits = await Exhibit.find(query).populate('animal habitat');
+    return res.status(200).json(exhibits);
   } catch (err) {
-    res.status(400).json({ error: 'Failed to update exhibit' });
+    return res.status(500).json({ error: 'Failed to fetch filtered exhibits' });
   }
 });
 
-// Delete an exhibit
-router.delete('/exhibits/:id', async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    await Exhibit.findByIdAndDelete(id);
-    res.status(204).send();
-  } catch (err) {
-    res.status(400).json({ error: 'Failed to delete exhibit' });
-  }
-});
-
-export default router;
+export default router;*/
